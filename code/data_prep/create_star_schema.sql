@@ -1,4 +1,4 @@
-CREATE TABLE dim_data (
+CREATE TABLE public.dim_data (
                 data DATE NOT NULL,
                 ano INTEGER NOT NULL,
                 mes INTEGER NOT NULL,
@@ -8,7 +8,7 @@ CREATE TABLE dim_data (
 );
 
 
-CREATE TABLE dim_olist_order_reviews_dataset (
+CREATE TABLE public.dim_order_reviews (
                 review_id VARCHAR NOT NULL,
                 review_score INTEGER NOT NULL,
                 review_comment_title VARCHAR,
@@ -19,7 +19,7 @@ CREATE TABLE dim_olist_order_reviews_dataset (
 );
 
 
-CREATE TABLE dim_olist_sellers_dataset (
+CREATE TABLE public.dim_sellers (
                 seller_id VARCHAR NOT NULL,
                 seller_zip_code_prefix INTEGER NOT NULL,
                 seller_city VARCHAR NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE dim_olist_sellers_dataset (
 );
 
 
-CREATE TABLE dim_olist_products_dataset (
+CREATE TABLE public.dim_products (
                 product_id VARCHAR NOT NULL,
                 product_category_name VARCHAR NOT NULL,
                 product_name_lenght INTEGER NOT NULL,
@@ -42,7 +42,7 @@ CREATE TABLE dim_olist_products_dataset (
 );
 
 
-CREATE TABLE dim_olist_geolocation_dataset (
+CREATE TABLE public.dim_geolocation (
                 geolocation_zip_code_prefix INTEGER NOT NULL,
                 geolocation_lat INTEGER NOT NULL,
                 geolocation_lng INTEGER NOT NULL,
@@ -52,7 +52,7 @@ CREATE TABLE dim_olist_geolocation_dataset (
 );
 
 
-CREATE TABLE dim_olist_customers_dataset (
+CREATE TABLE public.dim_customers (
                 customer_id VARCHAR NOT NULL,
                 customer_zip_code_prefix INTEGER NOT NULL,
                 customer_city VARCHAR NOT NULL,
@@ -61,12 +61,15 @@ CREATE TABLE dim_olist_customers_dataset (
 );
 
 
-CREATE TABLE fat_order (
-                fato_PK INTEGER NOT NULL,
+CREATE SEQUENCE public.fat_order_fato_pk_seq;
+
+CREATE TABLE public.fat_order (
+                fato_PK INTEGER NOT NULL DEFAULT nextval('public.fat_order_fato_pk_seq'),
+                seller_geolocation_zip_code_prefix INTEGER NOT NULL,
+                customer_geolocation_zip_code_prefix INTEGER NOT NULL,
                 data DATE NOT NULL,
                 order_id INTEGER NOT NULL,
                 product_id VARCHAR NOT NULL,
-                geolocation_zip_code_prefix INTEGER NOT NULL,
                 seller_id VARCHAR NOT NULL,
                 review_id VARCHAR NOT NULL,
                 customer_id VARCHAR NOT NULL,
@@ -88,44 +91,53 @@ CREATE TABLE fat_order (
 );
 
 
-ALTER TABLE fat_order ADD CONSTRAINT dim_data_fat_order_fk
+ALTER SEQUENCE public.fat_order_fato_pk_seq OWNED BY public.fat_order.fato_PK;
+
+ALTER TABLE public.fat_order ADD CONSTRAINT dim_data_fat_order_fk
 FOREIGN KEY (data)
-REFERENCES dim_data (data)
+REFERENCES public.dim_data (data)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE fat_order ADD CONSTRAINT dim_olist_order_reviews_dataset_fat_order_fk
+ALTER TABLE public.fat_order ADD CONSTRAINT dim_olist_order_reviews_dataset_fat_order_fk
 FOREIGN KEY (review_id)
-REFERENCES dim_olist_order_reviews_dataset (review_id)
+REFERENCES public.dim_order_reviews (review_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE fat_order ADD CONSTRAINT dim_olist_sellers_dataset_fat_order_fk
+ALTER TABLE public.fat_order ADD CONSTRAINT dim_olist_sellers_dataset_fat_order_fk
 FOREIGN KEY (seller_id)
-REFERENCES dim_olist_sellers_dataset (seller_id)
+REFERENCES public.dim_sellers (seller_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE fat_order ADD CONSTRAINT dim_olist_products_dataset_fat_order_fk
+ALTER TABLE public.fat_order ADD CONSTRAINT dim_olist_products_dataset_fat_order_fk
 FOREIGN KEY (product_id)
-REFERENCES dim_olist_products_dataset (product_id)
+REFERENCES public.dim_products (product_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE fat_order ADD CONSTRAINT dim_olist_geolocation_dataset_fat_order_fk
-FOREIGN KEY (geolocation_zip_code_prefix)
-REFERENCES dim_olist_geolocation_dataset (geolocation_zip_code_prefix)
+ALTER TABLE public.fat_order ADD CONSTRAINT dim_geolocation_fat_order_fk
+FOREIGN KEY (customer_geolocation_zip_code_prefix)
+REFERENCES public.dim_geolocation (geolocation_zip_code_prefix)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
 
-ALTER TABLE fat_order ADD CONSTRAINT dim_olist_customers_dataset_fat_order_fk
+ALTER TABLE public.fat_order ADD CONSTRAINT dim_geolocation_fat_order_fk1
+FOREIGN KEY (seller_geolocation_zip_code_prefix)
+REFERENCES public.dim_geolocation (geolocation_zip_code_prefix)
+ON DELETE NO ACTION
+ON UPDATE NO ACTION
+NOT DEFERRABLE;
+
+ALTER TABLE public.fat_order ADD CONSTRAINT dim_olist_customers_dataset_fat_order_fk
 FOREIGN KEY (customer_id)
-REFERENCES dim_olist_customers_dataset (customer_id)
+REFERENCES public.dim_customers (customer_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
