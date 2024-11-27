@@ -34,7 +34,7 @@ Fato:
 *Foi criada a dimensão Data para facilitar e otimizar as análises temporais.*
 
 ### Star Schema final:
-<img src="starschema_olist.png" width="90%">
+<img src="starschema_olist.jpeg" width="90%">
 
 Essa estrutura foi pensada para garantir flexibilidade e eficiência nas futuras análises de dados.
 
