@@ -1,4 +1,3 @@
-
 CREATE TABLE public.dim_data (
                 data DATE NOT NULL,
                 ano INTEGER NOT NULL,
@@ -37,14 +36,14 @@ CREATE TABLE public.dim_sellers (
 CREATE TABLE public.dim_products (
                 product_id VARCHAR NOT NULL,
                 product_category_name VARCHAR,
-                product_name_length INTEGER NOT NULL,
-                product_description_length INTEGER NOT NULL,
-                product_photos_qty INTEGER NOT NULL,
-                product_weight_g INTEGER NOT NULL,
-                product_length_cm INTEGER NOT NULL,
-                product_height_cm INTEGER NOT NULL,
+                product_name_length INTEGER,
+                product_description_length INTEGER,
+                product_photos_qty INTEGER,
+                product_weight_g INTEGER,
+                product_length_cm INTEGER,
+                product_height_cm INTEGER,
+                product_width_cm INTEGER,
                 insert_time TIMESTAMP default CURRENT_TIMESTAMP,
-                product_width_cm INTEGER NOT NULL,
                 CONSTRAINT product_id PRIMARY KEY (product_id)
 );
 
@@ -72,9 +71,9 @@ CREATE TABLE public.fat_order (
                 customer_id VARCHAR NOT NULL,
                 order_status VARCHAR NOT NULL,
                 order_purchase_data DATE NOT NULL,
-                order_approved_at TIMESTAMP NOT NULL,
-                order_delivered_carrier_date TIMESTAMP NOT NULL,
-                order_delivered_customer_date TIMESTAMP NOT NULL,
+                order_approved_at TIMESTAMP,
+                order_delivered_carrier_date TIMESTAMP,
+                order_delivered_customer_date TIMESTAMP,
                 order_estimated_delivery_date TIMESTAMP NOT NULL,
                 payment_sequential INTEGER NOT NULL,
                 payment_type VARCHAR NOT NULL,
@@ -125,3 +124,4 @@ REFERENCES public.dim_customers (customer_id)
 ON DELETE NO ACTION
 ON UPDATE NO ACTION
 NOT DEFERRABLE;
+
