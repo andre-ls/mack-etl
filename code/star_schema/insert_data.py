@@ -54,7 +54,7 @@ files = [
 ]
 
 for file in files:
-    print(f">>> Processamento da tabela {file['star-name']}")
+    print(f">>> Inserção da tabela {file['star-name']}")
     data, col_names = read_data_from_source(source_conn, file['read_query'])
     write_data_to_target(target_conn,file['star-name'],data,col_names)
 
