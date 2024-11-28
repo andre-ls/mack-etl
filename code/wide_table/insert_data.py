@@ -44,7 +44,7 @@ def write_data_to_target(target_conn,table_name,data,col_names):
 def insertDataToWideTable(sourceConn, targetConn):
     print(">> Inserção de Dados do Wide Table")
     data, col_names = read_data_from_source(source_conn, wide_table)
-    write_data_to_target(target_conn,'wide-order',data,col_names)
+    write_data_to_target(target_conn,'wide_table',data,col_names)
 
 if __name__ == "__main__":
     source_conn, target_conn = getDatabaseConnections()

@@ -9,5 +9,5 @@ def createTable(connection):
 
 if __name__ == "__main__":
     conn = psycopg2.connect("host=wide-postgres dbname=postgres user=postgres password=postgres")
-    createTables(conn)
+    createTable(conn)
     conn.close()

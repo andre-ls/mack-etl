@@ -1,3 +1,54 @@
+create_table = """
+CREATE SEQUENCE public.wide_table_wide_pk_seq;
+
+CREATE TABLE public.wide_table (
+                order_id VARCHAR NOT NULL,
+                wide_PK VARCHAR NOT NULL DEFAULT nextval('public.wide_table_wide_pk_seq'),
+                review_answer_timestamp TIMESTAMP NOT NULL,
+                review_comment_message VARCHAR,
+                seller_city VARCHAR NOT NULL,
+                seller_state VARCHAR NOT NULL,
+                seller_id VARCHAR NOT NULL,
+                seller_zip_code_prefix INTEGER NOT NULL,
+                review_score INTEGER NOT NULL,
+                review_creation_date DATE NOT NULL,
+                review_id VARCHAR NOT NULL,
+                review_comment_title VARCHAR,
+                customer_city VARCHAR NOT NULL,
+                customer_id VARCHAR NOT NULL,
+                customer_zip_code_prefix INTEGER NOT NULL,
+                customer_state VARCHAR NOT NULL,
+                order_status VARCHAR NOT NULL,
+                product_height_cm INTEGER,
+                product_name_length INTEGER,
+                product_weight_g INTEGER,
+                product_width_cm INTEGER,
+                product_id VARCHAR NOT NULL,
+                product_description_length INTEGER,
+                product_photos_qty INTEGER,
+                product_length_cm INTEGER,
+                product_category_name VARCHAR,
+                order_purchase_data DATE NOT NULL,
+                order_approved_at TIMESTAMP,
+                order_delivered_carrier_date TIMESTAMP,
+                order_delivered_customer_date TIMESTAMP,
+                order_estimated_delivery_date TIMESTAMP NOT NULL,
+                payment_sequential INTEGER NOT NULL,
+                payment_type VARCHAR NOT NULL,
+                payment_installments INTEGER NOT NULL,
+                payment_value REAL NOT NULL,
+                shipping_limit_date TIMESTAMP NOT NULL,
+                price REAL NOT NULL,
+                order_purchase_time TIME NOT NULL,
+                freight_value REAL NOT NULL,
+                insert_time TIMESTAMP default CURRENT_TIMESTAMP,
+                data DATE NOT NULL,
+                CONSTRAINT order_id PRIMARY KEY (order_id, wide_PK)
+);
+
+ALTER SEQUENCE public.wide_table_wide_pk_seq OWNED BY public.wide_table.wide_PK;
+"""
+
 wide_table = """
 select 
 	DATE(oo.order_purchase_timestamp) as data,
@@ -12,7 +63,6 @@ select
 	op.product_height_cm, 
 	op.product_width_cm,
 	oor.review_id,
-	oor.order_id, 
 	oor.review_score, 
 	oor.review_comment_title, 
 	oor.review_comment_message, 
