@@ -2,6 +2,7 @@ import psycopg2
 from queries import create_tables
 
 def createTables(conn, cursor):
+    print(">> Criação das Tabelas de Star Schema")
     cur.execute(create_tables)
     conn.commit()
 

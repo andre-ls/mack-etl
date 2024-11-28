@@ -5,17 +5,18 @@ def generateInsertQuery(table_name,header):
     values_position = ','.join(['%s']*len(header))
     return f"INSERT INTO {table_name} VALUES ({values_position})"
 
-def insertFiles(table_name, file_path):
+def insertFiles(table_name, file_path, connection):
     with open(file_path, 'r') as f:
+        cursor = conn.cursor()
         reader = csv.reader(f)
         header = next(reader) # Skip the header row.
         query = generateInsertQuery(table_name,header)
         for row in reader:
             clean_row = [None if x == "" else x for x in row]
-            cur.execute(query,clean_row)
+            cursor.execute(query,clean_row)
     conn.commit()
 
-def insertData(conn, cursor):
+def insertData(connection):
     files = [
         {'name' : 'olist_customers' , 'path' : 'data/olist_customers_dataset.csv'},
         {'name' : 'olist_geolocation' , 'path' : 'data/olist_geolocation_dataset.csv'},
@@ -27,14 +28,12 @@ def insertData(conn, cursor):
         {'name' : 'olist_sellers' , 'path' : 'data/olist_sellers_dataset.csv'},
         {'name' : 'olist_product_category_name_translation' , 'path' : 'data/product_category_name_translation.csv'}
     ]
-
     print(">> Upload dos Dados Transacionais")
     for file in files:
         print(f"    >>> Upload da Tabela {file['name']}")
-        insertFiles(file['name'],file['path'])
+        insertFiles(file['name'],file['path'], connection)
 
 if __name__ == "__main__":
     conn = psycopg2.connect("host=some-postgres dbname=postgres user=postgres password=postgres")
-    cur = conn.cursor()
-
-    insertData(conn, cur)
+    insertData(conn)
+    conn.close()

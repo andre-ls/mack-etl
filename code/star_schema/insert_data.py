@@ -22,11 +22,11 @@ def getDatabaseConnections():
 
     return source_conn, target_conn
 
-def read_data_from_source(source_conn,query):
-    with source_conn.cursor() as source_cursor:
-        source_cursor.execute(query)
-        data = source_cursor.fetchall()
-        col_names = [desc[0] for desc in source_cursor.description]
+def read_data_from_source(source_conn, query):
+    cursor = source_conn.cursor()
+    cursor.execute(query)
+    data = cursor.fetchall()
+    col_names = [desc[0] for desc in cursor.description]
     return data, col_names
 
 
@@ -36,10 +36,10 @@ def generateInsertQuery(table_name,col_names):
     return f"INSERT INTO {table_name} ({column_positions}) VALUES ({values_position})"
 
 def write_data_to_target(target_conn,table_name,data,col_names):
-    with target_conn.cursor() as target_cursor:
-        insertQuery = generateInsertQuery(table_name,col_names)
-        for row in data:
-            target_cursor.execute(insertQuery,row)
+    cursor = target_conn.cursor()
+    insertQuery = generateInsertQuery(table_name,col_names)
+    for row in data:
+        cursor.execute(insertQuery,row)
     target_conn.commit()
 
 def insertDataToStarSchema(sourceConn, targetConn):
@@ -58,10 +58,8 @@ def insertDataToStarSchema(sourceConn, targetConn):
         data, col_names = read_data_from_source(source_conn, file['read_query'])
         write_data_to_target(target_conn,file['star-name'],data,col_names)
 
-    # Fecha as conexões com os bancos de dados
-    source_conn.close()
-    target_conn.close()
-
 if __name__ == "__main__":
     source_conn, target_conn = getDatabaseConnections()
     insertDataToStarSchema(source_conn, target_conn)
+    source_conn.close()
+    target_conn.close()

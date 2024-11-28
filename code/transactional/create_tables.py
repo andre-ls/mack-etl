@@ -1,8 +1,9 @@
 import psycopg2
 from queries import *
 
-def createTables(conn, cursor):
+def createTables(conn):
     queries = [olist_customers, olist_geolocation, olist_order_items, olist_order_payments, olist_order_reviews, olist_orders, olist_products, olist_sellers, olist_product_category_name_translation]
+    cursor = conn.cursor()
 
     print(">> Criação das Tabelas Transacionais")
     for query in queries:
@@ -11,5 +12,5 @@ def createTables(conn, cursor):
 
 if __name__ == "__main__":
     conn = psycopg2.connect("host=some-postgres dbname=postgres user=postgres password=postgres")
-    cur = conn.cursor()
-    createTables(conn, cur)
+    createTables(conn)
+    conn.close()
