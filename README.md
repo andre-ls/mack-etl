@@ -33,14 +33,16 @@ Fato:
 
 *Foi criada a dimensão Data para facilitar e otimizar as análises temporais.*
 
-### Star Schema final:
+### Arquitetura Star Schema:
 <img src="starschema_olist.jpeg" width="90%">
 
 Essa estrutura foi pensada para garantir flexibilidade e eficiência nas futuras análises de dados.
 
 ## Arquitetura Wide Table
 
+<img src="wide_table.png" width="20%">
 
+Essa estrutura foi projetada para simplificar consultas e aumentar a performance analítica, consolidando dados em uma única tabela, ideal para cenários de leitura intensiva e análises rápidas.
 
 
 
