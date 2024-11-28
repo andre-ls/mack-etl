@@ -42,22 +42,26 @@ def write_data_to_target(target_conn,table_name,data,col_names):
             target_cursor.execute(insertQuery,row)
     target_conn.commit()
 
-source_conn, target_conn = getDatabaseConnections()
+def insertDataToStarSchema(sourceConn, targetConn):
+    files = [
+        {'star-name' : 'dim_customers' , 'read_query' : dim_customers},
+        {'star-name' : 'dim_order_reviews' , 'read_query' : dim_order_reviews},
+        {'star-name' : 'dim_products' , 'read_query' : dim_products},
+        {'star-name' : 'dim_sellers' , 'read_query' : dim_sellers},
+        {'star-name' : 'dim_data' , 'read_query' : dim_data},
+        {'star-name' : 'fat_order' , 'read_query' : fat_order}
+    ]
 
-files = [
-    {'star-name' : 'dim_customers' , 'read_query' : dim_customers},
-    {'star-name' : 'dim_order_reviews' , 'read_query' : dim_order_reviews},
-    {'star-name' : 'dim_products' , 'read_query' : dim_products},
-    {'star-name' : 'dim_sellers' , 'read_query' : dim_sellers},
-    {'star-name' : 'dim_data' , 'read_query' : dim_data},
-    {'star-name' : 'fat_order' , 'read_query' : fat_order}
-]
+    print(">> Inserção de Dados do Star Schema")
+    for file in files:
+        print(f"    >>> Inserção da tabela {file['star-name']}")
+        data, col_names = read_data_from_source(source_conn, file['read_query'])
+        write_data_to_target(target_conn,file['star-name'],data,col_names)
 
-for file in files:
-    print(f">>> Inserção da tabela {file['star-name']}")
-    data, col_names = read_data_from_source(source_conn, file['read_query'])
-    write_data_to_target(target_conn,file['star-name'],data,col_names)
+    # Fecha as conexões com os bancos de dados
+    source_conn.close()
+    target_conn.close()
 
-# Fecha as conexões com os bancos de dados
-source_conn.close()
-target_conn.close()
+if __name__ == "__main__":
+    source_conn, target_conn = getDatabaseConnections()
+    insertDataToStarSchema(source_conn, target_conn)
