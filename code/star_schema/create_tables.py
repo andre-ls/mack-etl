@@ -1,13 +1,13 @@
 import psycopg2
 from queries import create_tables
 
-def createTables(conn, cursor):
+def createTables(connection):
     print(">> Criação das Tabelas de Star Schema")
-    cur.execute(create_tables)
-    conn.commit()
+    cursor = connection.cursor()
+    cursor.execute(create_tables)
+    connection.commit()
 
 if __name__ == "__main__":
     conn = psycopg2.connect("host=star-postgres dbname=postgres user=postgres password=postgres")
-    cur = conn.cursor()
-
-    createTables(conn, cur)
+    createTables(conn)
+    conn.close()
