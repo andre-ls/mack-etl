@@ -60,14 +60,14 @@ Essa estrutura foi projetada para simplificar consultas e aumentar a performance
 
 3. **Conecte-se ao banco de dados: Utilize qualquer sistema ou cliente que suporte PostgreSQL para acessar os dados transformados**:
 
-    - Host: localhost (ou o IP do servidor, caso não esteja local)
+    - Host: localhost
     - Portas:
       - 5432: Transacional
       - 5433: Star Schema
       - 5434: Wide Table
     - Usuário: postgres
     - Senha: postgres
-    - Database: Nome do banco de dados configurado no pipeline (ex.: star_schema ou wide_table)
+    - Database: postgres
 
 4. **Finalize os containers**:
    ```bash
