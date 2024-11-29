@@ -56,9 +56,9 @@ Essa estrutura foi projetada para simplificar consultas e aumentar a performance
    ```bash
    docker-compose up
    ```
-Isso inicializará todos os containers necessários para o projeto.
+      Isso inicializará todos os containers necessários para o projeto.
 
-3. Conecte-se ao banco de dados: Utilize qualquer sistema ou cliente que suporte PostgreSQL para acessar os dados transformados:
+3. **Conecte-se ao banco de dados: Utilize qualquer sistema ou cliente que suporte PostgreSQL para acessar os dados transformados**:
 
     - Host: localhost (ou o IP do servidor, caso não esteja local).
     - Porta: 5432 (ou a porta definida no docker-compose.yml).
