@@ -1,5 +1,5 @@
 import psycopg2
-from queries import *
+from .queries import *
 
 # Configurações de conexão com o banco de dados fonte
 def getDatabaseConnections():
@@ -41,13 +41,13 @@ def write_data_to_target(target_conn,table_name,data,col_names):
         cursor.execute(insertQuery,row)
     target_conn.commit()
 
-def insertDataToWideTable(sourceConn, targetConn):
+def insertData(source_conn, target_conn):
     print(">> Inserção de Dados do Wide Table")
     data, col_names = read_data_from_source(source_conn, wide_table)
     write_data_to_target(target_conn,'wide_table',data,col_names)
 
 if __name__ == "__main__":
     source_conn, target_conn = getDatabaseConnections()
-    insertDataToWideTable(source_conn, target_conn)
+    insertData(source_conn, target_conn)
     source_conn.close()
     target_conn.close()

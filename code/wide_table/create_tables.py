@@ -1,5 +1,5 @@
 import psycopg2
-from queries import create_table
+from .queries import create_table
 
 def createTable(connection):
     print(">> Criação de Wide Table")

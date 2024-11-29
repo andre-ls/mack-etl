@@ -1,5 +1,5 @@
 import psycopg2
-from queries import *
+from .queries import *
 
 # Configurações de conexão com o banco de dados fonte
 def getDatabaseConnections():
@@ -42,7 +42,7 @@ def write_data_to_target(target_conn,table_name,data,col_names):
         cursor.execute(insertQuery,row)
     target_conn.commit()
 
-def insertDataToStarSchema(sourceConn, targetConn):
+def insertData(source_conn, target_conn):
     files = [
         {'star-name' : 'dim_customers' , 'read_query' : dim_customers},
         {'star-name' : 'dim_order_reviews' , 'read_query' : dim_order_reviews},
@@ -60,6 +60,6 @@ def insertDataToStarSchema(sourceConn, targetConn):
 
 if __name__ == "__main__":
     source_conn, target_conn = getDatabaseConnections()
-    insertDataToStarSchema(source_conn, target_conn)
+    insertData(source_conn, target_conn)
     source_conn.close()
     target_conn.close()

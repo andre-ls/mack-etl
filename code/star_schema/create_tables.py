@@ -1,5 +1,5 @@
 import psycopg2
-from queries import create_tables
+from .queries import create_tables
 
 def createTables(connection):
     print(">> Criação das Tabelas de Star Schema")

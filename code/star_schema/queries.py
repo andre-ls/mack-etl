@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS public.dim_data (
                 CONSTRAINT data PRIMARY KEY (data)
 );
 
-CREATE TABLE public.dim_order_reviews (
+CREATE TABLE IF NOT EXISTS public.dim_order_reviews (
                 review_id VARCHAR NOT NULL,
                 order_id VARCHAR NOT NULL,
                 review_score INTEGER NOT NULL,
@@ -23,7 +23,7 @@ CREATE TABLE public.dim_order_reviews (
 );
 
 
-CREATE TABLE public.dim_sellers (
+CREATE TABLE IF NOT EXISTS public.dim_sellers (
                 seller_id VARCHAR NOT NULL,
                 seller_city VARCHAR NOT NULL,
                 seller_state VARCHAR NOT NULL,
@@ -32,7 +32,7 @@ CREATE TABLE public.dim_sellers (
                 CONSTRAINT seller_id PRIMARY KEY (seller_id)
 );
 
-CREATE TABLE public.dim_products (
+CREATE TABLE IF NOT EXISTS public.dim_products (
                 product_id VARCHAR NOT NULL,
                 product_category_name VARCHAR,
                 product_name_length INTEGER,
@@ -46,7 +46,7 @@ CREATE TABLE public.dim_products (
                 CONSTRAINT product_id PRIMARY KEY (product_id)
 );
 
-CREATE TABLE public.dim_customers (
+CREATE TABLE IF NOT EXISTS public.dim_customers (
                 customer_id VARCHAR NOT NULL,
                 customer_city VARCHAR NOT NULL,
                 customer_state VARCHAR NOT NULL,
@@ -58,7 +58,7 @@ CREATE TABLE public.dim_customers (
 
 CREATE SEQUENCE public.fat_order_fato_pk_seq;
 
-CREATE TABLE public.fat_order (
+CREATE TABLE IF NOT EXISTS public.fat_order (
                 fato_PK INTEGER NOT NULL DEFAULT nextval('public.fat_order_fato_pk_seq'),
                 order_id VARCHAR NOT NULL,
                 data DATE NOT NULL,

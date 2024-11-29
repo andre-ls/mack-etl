@@ -1,7 +1,7 @@
 create_table = """
 CREATE SEQUENCE public.wide_table_wide_pk_seq;
 
-CREATE TABLE public.wide_table (
+CREATE TABLE IF NOT EXISTS public.wide_table (
                 order_id VARCHAR NOT NULL,
                 wide_PK VARCHAR NOT NULL DEFAULT nextval('public.wide_table_wide_pk_seq'),
                 review_answer_timestamp TIMESTAMP NOT NULL,

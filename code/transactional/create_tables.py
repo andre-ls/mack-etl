@@ -1,5 +1,5 @@
 import psycopg2
-from queries import *
+from .queries import *
 
 def createTables(conn):
     queries = [olist_customers, olist_geolocation, olist_order_items, olist_order_payments, olist_order_reviews, olist_orders, olist_products, olist_sellers, olist_product_category_name_translation]
