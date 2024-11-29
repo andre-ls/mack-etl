@@ -17,7 +17,7 @@ Dataset utilizado: [Olist](https://www.kaggle.com/datasets/olistbr/brazilian-eco
 - **Docker Compose:** Um único arquivo [docker-compose](compose.yml) para orquestrar todos os serviços necessários.
 
 #### Arquitetura:
-<img src="arquitetura.png" width="90%">
+<img src="docker_compose.png" width="90%">
 
 
 ## Arquitetura Star Schema
