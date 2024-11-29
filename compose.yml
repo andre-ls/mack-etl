@@ -1,0 +1,70 @@
+version: '3.8'
+
+networks:
+  etl-network:
+    driver: bridge
+
+services:
+  transactional_db:
+    image: postgres
+    container_name: transactional_db
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    networks:
+      - etl-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  starschema_db:
+    image: postgres
+    container_name: starschema_db
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"
+    networks:
+      - etl-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  widetable_db:
+    image: postgres
+    container_name: widetable_db
+    environment:
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5434:5432"
+    networks:
+      - etl-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  etl_engine:
+    build: .
+    container_name: etl_engine
+    environment:
+      - TRANSACTIONAL_DB=transactional_db
+      - STARSCHEMA_DB=starschema_db
+      - WIDETABLE_DB=widetable_db
+    networks:
+      - etl-network
+    depends_on:
+      transactional_db:
+        condition: service_healthy
+      starschema_db:
+        condition: service_healthy
+      widetable_db:
+        condition: service_healthy
+    stdin_open: true # Abre o stdin
+    tty: true        # Aloca um tty
