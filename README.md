@@ -62,8 +62,8 @@ Essa estrutura foi projetada para simplificar consultas e aumentar a performance
 
     - Host: localhost (ou o IP do servidor, caso não esteja local).
     - Porta: 5432 (ou a porta definida no docker-compose.yml).
-    - Usuário: O usuário configurado no container (ex.: postgres).
-    - Senha: A senha definida no arquivo docker-compose.yml.
+    - Usuário: postgres
+    - Senha: postgres
     - Database: Nome do banco de dados configurado no pipeline (ex.: star_schema ou wide_table).
 
 4. **Finalize os containers**:
